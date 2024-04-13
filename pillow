@@ -1,0 +1,80 @@
+from PIL import Image, ImageChops, ImageFilter
+from PIL.ImageFilter import CONTOUR, DETAIL, EDGE_ENHANCE_MORE, EMBOSS, FIND_EDGES, SMOOTH, SHARPEN
+
+im = Image.open("C:\\Users\\HP\\Downloads\\3.jpg")
+#im.show()
+(w, h) = (im.width*2, im.height*2)
+imResize = im.resize((w, h))
+#imResize.show()
+imBW = im.convert("L")
+#imBW.show()
+box = (100, 100, 400, 400)
+imCrop = im.crop(box)
+#imCrop.show()
+imTranspose = im.transpose(Image.FLIP_TOP_BOTTOM)
+#imTranspose.show()
+imRotate = im.rotate(90)
+#imRotate.show()
+
+#merge image
+im1 = Image.open("C:\\Users\\HP\\Downloads\\1.jpg")
+im2 = Image.open("C:\\Users\\HP\\Downloads\\2.jpg")
+w = im1.size[0] + im2.size[0]
+h = max(im1.size[1], im2.size[1])
+imMerge = Image.new("RGB", (w, h))
+imMerge.paste(im1)
+imMerge.paste(im2, (im1.size[0], 0))
+#imMerge.show()
+
+#add and subtract pixels
+imSubtract = ImageChops.subtract(im1, im2, 1.0, 0)
+#imSubtract.show()
+imAdd = ImageChops.add(im1, im2, 1.0, 0)
+#imAdd.show()
+
+#split into bands
+r, g, b = im.split()
+imSplit = Image.merge("RGB", (b, g, r))
+#imSplit.show()
+
+#individual bands
+source = im.split()
+R, G, B = 0, 1, 2
+mask = source[R].point(lambda i: i < 100 and 255)
+out = source[G].point(lambda i: i * 4)
+source[G].paste(out, None, mask)
+im = Image.merge(im.mode, source)
+#im.show()
+
+#FILTERS
+#blur
+imFilter = im.filter(ImageFilter.BoxBlur(8))
+#imFilter.show()
+
+#multiply each pixel by n
+out = im.point(lambda i: i * 4)
+#out.show()
+
+#contour
+imContour = im.filter(CONTOUR)
+#imContour.show()
+
+#detail
+imDetail = im.filter(DETAIL)
+#imDetail.show()
+
+#edge enhance
+imEdgeEnhance = im.filter(EDGE_ENHANCE_MORE())
+#imEdgeEnhance.show()
+
+#emboss
+imEmboss = im.filter(EMBOSS)
+#imEmboss.show()
+
+#find edges
+imFindEdges = im.filter(FIND_EDGES)
+#imFindEdges.show()
+
+#smooth
+imSmooth = im.filter(SMOOTH)
+#imSmooth.show()
