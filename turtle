@@ -39,3 +39,25 @@ fileName = "imageGrab.png"
 ImageGrab.grab().save(fileName)
 
 turtle.mainloop()
+
+#MAN
+# -*- coding: utf-8 -*-
+"""
+Created on Sat Apr 13 12:47:34 2024
+
+@author: HP
+"""
+import cv2
+import numpy as np
+photo=np.zeros((600, 600, 3))
+cv2.circle(photo, center=(250, 100), radius=75, color=(255, 0, 0), thickness=-1)
+photo[175:195, 240:260]=[0, 0, 255]
+photo[195:325, 150:350]=[255, 0, 0]
+photo[325:475, 295:305]=[0, 255, 0]
+photo[325:475, 195:205]=[0, 255, 0]
+photo[195:205, 350:450]=[0, 0, 255]
+photo[195:205, 50:150]=[0, 0, 255]
+
+cv2.imshow("img", photo)
+cv2.waitKey(0)  # Wait indefinitely for a key press
+cv2.destroyAllWindows()  # Close all OpenCV windows
